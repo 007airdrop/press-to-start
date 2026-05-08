@@ -1,37 +1,43 @@
-import App from "@/components/App";
-import { env } from "@/lib/env";
-import { Metadata } from "next";
+"use client";
 
-const appUrl = env.NEXT_PUBLIC_URL;
-
-const frame = {
-  version: "next",
-  imageUrl: `${appUrl}/images/feed.png`,
-  button: {
-    title: "Launch App",
-    action: {
-      type: "launch_frame",
-      name: "Mini-app Starter",
-      url: appUrl,
-      splashImageUrl: `${appUrl}/images/splash.png`,
-      splashBackgroundColor: "#ffffff",
-    },
-  },
-};
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Mini-app Starter",
-    openGraph: {
-      title: "Mini-app Starter",
-      description: "A starter for Farcastermini-apps",
-    },
-    other: {
-      "fc:frame": JSON.stringify(frame),
-    },
-  };
-}
+import { useState } from "react";
 
 export default function Home() {
-  return <App />;
+  const rewards = [
+    "Common",
+    "Uncommon",
+    "Rare",
+    "Epic",
+    "Legendary"
+  ];
+
+  const [reward, setReward] = useState("");
+
+  function pressButton() {
+    const random =
+      rewards[Math.floor(Math.random() * rewards.length)];
+
+    setReward(random);
+  }
+
+  return (
+    <main className="h-screen bg-black text-white flex flex-col items-center justify-center">
+      <h1 className="text-5xl font-bold mb-10">
+        PRESS TO START
+      </h1>
+
+      <button
+        onClick={pressButton}
+        className="bg-green-500 px-10 py-5 rounded-xl text-2xl"
+      >
+        PRESS
+      </button>
+
+      {reward && (
+        <div className="mt-10 text-3xl">
+          You got: {reward}
+        </div>
+      )}
+    </main>
+  );
 }
